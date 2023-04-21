@@ -7,7 +7,7 @@ const router = express.Router();
 
 export const getUsers = async (req:Request, res:Response) => { 
     try {
-        const Users = await User.find();
+        const Users = await User.find().select('-password');
         res.status(200).json(Users);
     } catch (error) {
         res.status(404).json({ message: error.message });
@@ -18,7 +18,7 @@ export const getUser = async (req:Request, res:Response) => {
     const { id } = req.params;
 
     try {
-        const user = await User.findById(id);
+        const user = await User.findById(id).select("-password");
         
         res.status(200).json(user);
     } catch (error) {
