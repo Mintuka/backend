@@ -30,7 +30,8 @@ export const updateUser = async (req:Request, res:Response) => {
     const { id } = req.params;
 
     try {
-        if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No user with id: ${id}`);
+        if (!mongoose.Types.ObjectId.isValid(id)) 
+            return res.status(404).json({ message: `No user with id: ${id}` });
 
         const updateduser = { ...req.body, _id: id };
     
@@ -46,7 +47,8 @@ export const deleteUser = async (req:Request, res:Response) => {
     const { id } = req.params;
 
     try {
-        if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No user with id: ${id}`);
+        if (!mongoose.Types.ObjectId.isValid(id)) 
+        return res.status(404).json({ message: `No user with id: ${id}` });
 
         await User.findByIdAndRemove(id);
     

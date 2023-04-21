@@ -2,7 +2,11 @@ import mongoose,{Document, Schema} from 'mongoose';
 
 export interface ICart extends Document{
   userId: string,
-  itemIds: Object[]
+  itemsId: Array<        
+          {
+            id: Schema.Types.ObjectId,
+            amount: Number
+          }>
 }
 
 const cartSchema: Schema<ICart> = new Schema({
@@ -10,7 +14,7 @@ const cartSchema: Schema<ICart> = new Schema({
       type: String,
       required: true
     },
-    itemIds: {
+    itemsId: {
       type: [
         {
           id: Schema.Types.ObjectId,

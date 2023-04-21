@@ -6,8 +6,8 @@ import { signUp } from '../services/signUp'
 
 export const router = express.Router();
 
-router.post('/logIn', logIn)
-router.post('/signUp', signUp);
+router.post('/log-in', logIn)
+router.post('/sign-up', signUp);
 router.get('/', getUsers);
 router.get('/:id', getUser);
 router.put('/:id', updateUser);

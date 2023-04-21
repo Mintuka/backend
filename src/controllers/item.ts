@@ -40,7 +40,8 @@ export const updateItem = async (req:Request, res:Response) => {
     const { id } = req.params;
     
     try {
-        if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No item with id: ${id}`);
+        if (!mongoose.Types.ObjectId.isValid(id)) 
+            return res.status(404).json({ message: `No item with id: ${id}` });
 
         const { price, amount } = req.body
         if ( amount )
@@ -66,7 +67,8 @@ export const deleteItem = async (req:Request, res:Response) => {
     const { id } = req.params;
 
     try {
-        if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No item with id: ${id}`);
+        if (!mongoose.Types.ObjectId.isValid(id)) 
+        return res.status(404).json({ message: `No item with id: ${id}` });
 
         await Item.findByIdAndRemove(id);
     
