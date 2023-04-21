@@ -2,7 +2,8 @@ import mongoose,{Document, Schema} from 'mongoose';
 
 export interface IItem extends Document{
   name: string,
-  price: string,
+  price: number,
+  amount: number,
   image: string
 }
 
@@ -12,7 +13,11 @@ const itemSchema: Schema<IItem> = new Schema({
       required: true
     },
     price: {
-      type: String,
+      type: Number,
+      required: true
+    },
+    amount: {
+      type: Number,
       required: true
     },
     image: {
