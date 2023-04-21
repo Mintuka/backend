@@ -1,7 +1,7 @@
 import {Request, Response} from 'express'
-import User, { IUser } from '../models/User'
 import bcrypt from 'bcrypt'
 import { createToken } from './createToken'
+import User, { IUser } from '../models/User'
 
 export const signUp = async(req: Request, res: Response) => {
     try{
@@ -18,5 +18,4 @@ export const signUp = async(req: Request, res: Response) => {
     }catch(err){
         return res.status(400).json({message: err})
     }
-
 }

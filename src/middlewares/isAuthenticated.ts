@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken'
 import { NextFunction, Request, Response } from "express"
-import User from '../models/User'
 import { secret } from '../services/createToken';
+import User from '../models/User';
 
 interface JwtPayload {
     _id: string;

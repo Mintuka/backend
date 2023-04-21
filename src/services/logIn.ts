@@ -3,7 +3,7 @@ import User,{IUser} from '../models/User'
 import bcrypt from 'bcrypt'
 import { createToken } from './createToken'
 
-export const login = async(req: Request, res: Response) => {
+export const logIn = async(req: Request, res: Response) => {
     const {email, password} = req.body
     if (!email || !password){
       return res.status(400).json({message: 'Email and Password are required'})
