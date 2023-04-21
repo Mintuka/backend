@@ -15,7 +15,7 @@ export const logIn = async(req: Request, res: Response) => {
           return res.status(200).json({message: 'incorrect password or email'})
         }
         const token = createToken(user._id)
-        return res.status(200).json({email, firstName:user.firstName, lastName:user.lastName, token})
+        return res.status(200).json({email, firstName:user.firstName, token})
     }
     return res.status(200).json({message: 'User not registered'})
 }
