@@ -9,18 +9,17 @@ interface JwtPayload {
 
 export const isAuthenticated = async(req:Request, res:Response, next:NextFunction) => {
     const { authorization } = req.headers
-    
     if (!authorization)
         return res.status(401).json({error: 'Authorization token required'})
     const token = authorization.split(' ')[1]
-    
     if ( !token )
         return res.status(401).json({error: 'Authorization token required'})
 
     try{
-        const {_id} = jwt.verify(token, secret) as JwtPayload
-        req.body.user = await User.findOne({_id})
-        if (req.body.user){
+        const { _id } = jwt.verify(token, secret) as JwtPayload
+        const user = await User.findOne({ _id })
+        if ( user ){
+            req.body.userId = _id
             next()
         }
         return

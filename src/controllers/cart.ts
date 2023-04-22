@@ -1,7 +1,7 @@
 import express,{Request, Response} from 'express';
 import mongoose from 'mongoose';
 
-import Cart from '../models/Cart';
+import Cart, { ICart } from '../models/Cart';
 import Item from '../models/Item';
 
 const router = express.Router();
@@ -39,16 +39,15 @@ export const getCart = async (req:Request, res:Response) => {
 }
 
 export const updateCart = async (req:Request, res:Response) => { 
-    const { id } = req.params;
-    const { items } = req.body;
-
+    const { items, userId } = req.body;
     try {
-        if (!mongoose.Types.ObjectId.isValid(id)) 
-            return res.status(404).json({ message: `No Cart with id: ${id}` });
+        const cart:any = await Cart.findOne({ userId })
+        const { _id, itemsId } = cart
+        if (!mongoose.Types.ObjectId.isValid(_id)) 
+            return res.status(404).json({ message: `No Cart with id: ${_id}` });
 
-        const updatedCart = { itemsId: [...items], _id: id };
-    
-        await Cart.findByIdAndUpdate(id, updatedCart, { new: true });
+        const updatedCart = { itemsId: [...itemsId, ...items], _id: _id };
+        await Cart.findByIdAndUpdate(_id, updatedCart, { new: true });
     
         return res.status(200).json(updatedCart);
     

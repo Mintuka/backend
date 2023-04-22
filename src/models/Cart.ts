@@ -1,6 +1,7 @@
 import mongoose,{Document, Schema} from 'mongoose';
 
 export interface ICart extends Document{
+  _id: Schema.Types.ObjectId,
   userId: string,
   itemsId: Array<        
           {
