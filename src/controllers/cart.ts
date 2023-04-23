@@ -38,6 +38,7 @@ export const getCart = async (req:Request, res:Response) => {
 
 export const updateCart = async (req:Request, res:Response) => { 
     const { itemId, isAdd, userId } = req.body;
+    console.log(req.body)
     try {
         const cart:any = await Cart.findOne({ userId })
         let { _id, itemsId } = cart
