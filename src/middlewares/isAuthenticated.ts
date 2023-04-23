@@ -14,7 +14,6 @@ export const isAuthenticated = async(req:Request, res:Response, next:NextFunctio
     const token = authorization.split(' ')[1]
     if ( !token )
         return res.status(401).json({error: 'Authorization token required'})
-
     try{
         const { _id } = jwt.verify(token, secret) as JwtPayload
         const user = await User.findOne({ _id })

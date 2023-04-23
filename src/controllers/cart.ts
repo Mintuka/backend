@@ -16,22 +16,20 @@ export const getCarts = async (req:Request, res:Response) => {
 }
 
 export const getCart = async (req:Request, res:Response) => { 
-    const { id } = req.params;
+    const { userId } = req.body;
 
     try {
-        const cart = await Cart.findById(id)
+        const cart:any = await Cart.findOne({ userId })
         const items = cart.itemsId
         let populatedItems = []
-        for (let itemData of items) {
-            const { id, amount } = itemData
+        for (let id of items) {
             const item = await Item.findById(id).select('name price image').lean().exec();  
             if ( item ) {
                 const { name, price, image } = item
-                const populatedItem = { amount , name, price, image }
+                const populatedItem = { name, price, image, _id:id }
                 populatedItems.push(populatedItem)
             }         
         }
-        
         return res.status(200).json({ cartItems: populatedItems});
     } catch (error) {
         return res.status(500).json({ message: error.message });
@@ -39,14 +37,21 @@ export const getCart = async (req:Request, res:Response) => {
 }
 
 export const updateCart = async (req:Request, res:Response) => { 
-    const { items, userId } = req.body;
+    const { itemId, isAdd, userId } = req.body;
     try {
         const cart:any = await Cart.findOne({ userId })
-        const { _id, itemsId } = cart
+        let { _id, itemsId } = cart
         if (!mongoose.Types.ObjectId.isValid(_id)) 
             return res.status(404).json({ message: `No Cart with id: ${_id}` });
-
-        const updatedCart = { itemsId: [...itemsId, ...items], _id: _id };
+        let result = [...itemsId]
+        if ( isAdd === true ) {
+            if ( !itemsId.includes(itemId) )
+                result.push(itemId)
+        }else {
+            result = result.filter( (id:any) => id !== itemId)
+        }
+        
+        const updatedCart = { itemsId: [...result], _id: _id };
         await Cart.findByIdAndUpdate(_id, updatedCart, { new: true });
     
         return res.status(200).json(updatedCart);

@@ -42,19 +42,26 @@ export const updateItem = async (req:Request, res:Response) => {
     try {
         if (!mongoose.Types.ObjectId.isValid(id)) 
             return res.status(404).json({ message: `No item with id: ${id}` });
-
-        const { price, amount } = req.body
-        if ( amount )
+        
+        const { price, amount, isAdd } = req.body
+        if ( amount < 0 )
             return res.status(400).json({ message: "Amount can'/t be below zero"})
-        if ( price )
+        if ( price < 0 )
             return res.status(400).json({ message: "Price can'/t be below zero"})
 
         const item = await Item.findById(id)
         if ( amount > item.amount )
             return res.status(400).json({ message: `We have only ${item.amount} availables`})
 
-        const updatedItem = { ...req.body, _id: id };
-    
+        let updatedItem:any;
+        if ( isAdd )
+            updatedItem = { ...req.body, amount: item.amount + amount, _id: id };
+        else {
+            updatedItem = { ...req.body, amount: item.amount - amount, _id: id };
+        }
+        console.log(item)
+        console.log(updatedItem)
+        
         await Item.findByIdAndUpdate(id, updatedItem, { new: true });
     
         return res.status(200).json(updatedItem);

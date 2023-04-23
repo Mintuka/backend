@@ -4,7 +4,7 @@ import { isAuthenticated } from '../middlewares/isAuthenticated';
 
 export const router = express.Router();
 
-router.get('/', getCarts);
-router.get('/:id', isAuthenticated, getCart);
+// router.get('/', getCarts);
+router.get('/', isAuthenticated, getCart);
 router.put('/', isAuthenticated, updateCart);
 router.delete('/:id', isAuthenticated, deleteCart);
