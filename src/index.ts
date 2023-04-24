@@ -16,7 +16,7 @@ app.use('/api/v1/user', userRouter);
 app.use('/api/v1/item', itemRouter);
 app.use('/api/v1/cart', cartRouter);
 
-const CONNECTION_URL = 'mongodb://localhost:27017/ecommerce';
+const CONNECTION_URL = 'mongodb+srv://mintesnot:Cgm6SfOcV8Fxi3Mj@ma-8745.lxs3s.mongodb.net/ecommerce?retryWrites=true&w=majority'
 const PORT = 5000;
 
 mongoose.connect(CONNECTION_URL)
